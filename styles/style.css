@@ -1,0 +1,85 @@
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  height: 100%; /* чтобы не появлялся горизонтальный скрол на десктопе */
+}
+
+html,
+body,
+h1 {
+  margin: 0;
+  padding: 0;
+}
+
+.page {
+  position: relative; 
+  display: flex;
+  height: 100%;
+  margin: 0;
+  font-family: Raleway, sans-serif;
+  background-color: #fec7ee;
+}
+
+.page::before { /* полупрозрачная вуаль на видео - тут не имеет значение before или after, так как позициоинрование абсолютное */
+  content: " "; /* без контента псевдоэлементы не работают */
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background-color: rgba(151, 86, 86, 0.3);
+}
+
+.page__video {
+  position: absolute; /* при абсолютном позиционировании рекомендуется прописывать координаты по каждой из осей х и у. всегда должен быть родительский элемент с релативным позиционированием, чтобы было понятно откуда считать координаты */
+  inset: 0; /* обнулили координаты, чтобы видео выбилось из потока и было сверху слева, перед этим задали позиционирование */
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* растягивает видео на всё пространство страницы */
+  object-position: center; /* центрирует видео, надо добавлять также к изображениями */
+}
+
+.page__title {
+  z-index: 1; /* работает только во флекс контейнере или если у элемента есть позиционирование*/
+  max-width: 720px;
+  margin: 0 auto;
+  font-size: 116px;
+  letter-spacing: 3.5px;
+  text-align: center;
+  text-transform: uppercase;
+  margin-top: 60px;
+}
+
+.page__title::after { /* звездочка в конце текста, поэтому псевдокласс after, к ней применились все стили текста из заголовка */
+  content: "*";
+  position: relative;
+}
+
+.page__title:hover {
+  color: #4c4c4c;
+  cursor: default;
+}
+
+.page__title:hover::before { /* нужно делать на основной элемент, с псевдоэлементами (со звёздочкой) это работать не будет */
+  content: "На самом деле нет.\AВажнее &mdash; научиться ошибаться."; /* \A - переносит текст на другую строку */
+  position: absolute; /* на заголовке нет позиционирования, поэтому координаты считаются от body, где указано */
+  top: 180px;
+  right: 20px;
+  max-width: 760px;
+  border: 2px solid #000;
+  border-radius: 20px;
+  padding: 36px 44px;
+  box-shadow: 0 12px 0 #000;
+  color: #000;
+  font-weight: normal;
+  font-size: 35px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-align: left;
+  text-transform: initial;
+  background-color: #fff;
+  white-space: pre; /* нужен для специфических моментов. нельзя злоупотреблять, так как контент на страницах будет меняться в будущем и страница может поехать. после уточнения с дизайнером */
+}
